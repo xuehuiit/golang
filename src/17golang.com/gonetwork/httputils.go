@@ -3,8 +3,6 @@ package gonetwork
 import (
 	"bytes"
 	"compress/gzip"
-	//"encoding/base64"
-	//"encoding/json"
 	"fmt"
 	"io"
 	"io/ioutil"
