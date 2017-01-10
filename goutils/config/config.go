@@ -1,14 +1,25 @@
 package config
 
+/**
+  我们采用yaml格式的文件来作为通用的项目的配置文件
+*/
+
 import (
-	"io/ioutil"
-	"gopkg.in/urfave/cli.v1"
 	"errors"
-	"gopkg.in/yaml.v2"
 	"fmt"
+	"gopkg.in/urfave/cli.v1"
+	"gopkg.in/yaml.v2"
+	"io/ioutil"
 )
 
+/**
+ *  读取配置文件
+ *
+ *   ctx  cli上下文环境
+ *
+ */
 func ReadConfig(ctx *cli.Context, flag string, cfg interface{}) error {
+
 	configFile := ctx.GlobalString(flag)
 	if configFile == "" {
 		return errors.New(fmt.Sprintf("%s flag not set", flag))

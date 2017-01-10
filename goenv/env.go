@@ -11,15 +11,18 @@ import (
 )
 
 //系统全局变量上下文
-var AppConstant map[string]string = make(map[string]string)
+var AppConstant map[string]interface{} = make(map[string]interface{})
 
-//系统启动时初始化
-func InitApp() {
+//系统全局变量上下文
+//var AppConstant map[string]string = make(map[string]string)
 
+//系统启动时初始化简单版本
+func InitAppSample() {
+
+	flag.Parse()
 	//1、接收启动参数
 
 	appDir := flag.String("appdir", "", "系统启动目录")
-	flag.Parse()
 
 	AppConstant["APP_DIR"] = *appDir //系统目录
 
