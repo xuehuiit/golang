@@ -69,15 +69,19 @@ func NewApp(usage string) *App {
 	app:=&App{
 		App:cli.NewApp(),
 	}
-	//app := cli.NewApp()
 	app.Name = filepath.Base(os.Args[0])
 	app.Author = "指旺金科"
 	app.Email = "shouhe.wu@fintecher.cn"
 	app.Version = Version
-	app.Usage = usage
-	app.Commands = []cli.Command{
-		glogCommand,
+	cli.VersionFlag = cli.BoolFlag{
+	    Name: "print-version, V",
+	    Usage: "print only the version",
 	}
+	app.Usage = usage
+	/*app.Commands = []cli.Command{
+		glogCommand,
+	}*/
+	app.AddFlags(GlogGangstaFlags)
 	app.Before = func(ctx *cli.Context) error {
 		runtime.GOMAXPROCS(runtime.NumCPU())
 		return nil
@@ -90,6 +94,36 @@ func NewApp(usage string) *App {
 }
 
 //glog
+
+var GlogGangstaFlags = []cli.Flag{
+	cli.IntFlag{
+		Name: "v", Value: 0, Usage: "log level for V logs",
+	},
+	cli.BoolFlag{
+		Name: "logtostderr", Usage: "log to standard error instead of files",
+	},
+	cli.IntFlag{
+		Name:  "stderrthreshold",
+		Usage: "logs at or above this threshold go to stderr",
+	},
+	cli.BoolFlag{
+		Name: "alsologtostderr", Usage: "log to standard error as well as files",
+	},
+	cli.StringFlag{
+		Name:  "vmodule",
+		Usage: "comma-separated list of pattern=N settings for file-filtered logging",
+	},
+	cli.StringFlag{
+		Name: "log_dir", Usage: "If non-empty, write log files in this directory",
+	},
+	cli.StringFlag{
+		Name:  "log_backtrace_at",
+		Usage: "when logging hits line file:N, emit a stack trace",
+		Value: ":0",
+	},
+}
+
+//暂时不用Command
 var (
 	glogCommand = cli.Command{
 		Action:    glogAction,

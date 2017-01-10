@@ -72,6 +72,8 @@ func action(ctx *cli.Context) error {
 	//读取配置文件并存储到系统通用缓存中
 	config.ReadConfig(ctx, "config", &goenv.AppConstant)
 
+	utils.GlogGangstaShim(ctx)
+
 	//保存当前
 	appDir := flag.String("appdir", "", "系统启动目录")
 	goenv.AppConstant["APP_DIR"] = *appDir
