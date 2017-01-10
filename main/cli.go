@@ -23,7 +23,6 @@ import (
 var (
 	// 初始时指明当前程序的名称
 	app = utils.NewApp("指旺命令行接口")
-
 	//定义程序的上下文环境，在这里用要给MAP来存储全局的变量，也可以引入其他的定义
 	//AppConstant map[string]interface{} = make(map[string]interface{})
 )
@@ -51,10 +50,10 @@ func main() {
 		Usage: "设置配置文件",
 	})
 
-	//
+	//设置当前程序的运行路径
 	app.AddFlag(cli.StringFlag{
 		Name:  "appdir",
-		Usage: "设置系统启动路径",
+		Usage: "设置当程序的运行目录",
 	})
 
 	//程序执行错误的时候执行的方法
