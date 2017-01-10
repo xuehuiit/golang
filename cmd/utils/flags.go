@@ -6,21 +6,70 @@ import (
 	"os"
 	"flag"
 	"fmt"
+	"runtime"
 	"github.com/golang/glog"
-
-type CliApp struct {
 )
-	cli.App
-	befores []cli.BeforeFunc
-	afters []cli.AfterFunc
+
+type App struct {
+	*cli.App
 }
 
-func (app *CliApp) Before([]cli.BeforeFunc){
-
+func (app *App)AddFlag(flag cli.Flag) {
+	app.Flags = append(app.Flags, flag)
 }
 
-func NewApp(usage string) *cli.App {
-	app := cli.NewApp()
+func (app *App)AddFlags(flag []cli.Flag) {
+	app.Flags = append(app.Flags, flag...)
+}
+
+func (app *App)AddCommand(cmd cli.Command) {
+	app.Commands = append(app.Commands, cmd)
+}
+
+func (app *App)AddCommands(cmds []cli.Command) {
+	app.Commands = append(app.Commands, cmds...)
+}
+
+func (app *App)AddBefore(before cli.BeforeFunc) {
+	b := app.Before
+	if b != nil {
+		app.Before = func(ctx *cli.Context) error {
+			if err := b(ctx); err != nil {
+				return err
+			}
+			if err := before(ctx); err != nil {
+				return err
+			}
+			return nil
+		}
+	} else {
+		app.Before = before
+	}
+}
+
+func (app *App)AddAfter(after cli.AfterFunc) {
+
+	a := app.After
+	if a != nil {
+		app.After = func(ctx *cli.Context) error {
+			if err := a(ctx); err != nil {
+				return err
+			}
+			if err := after(ctx); err != nil {
+				return err
+			}
+			return nil
+		}
+	} else {
+		app.After = after
+	}
+}
+
+func NewApp(usage string) *App {
+	app:=&App{
+		App:cli.NewApp(),
+	}
+	//app := cli.NewApp()
 	app.Name = filepath.Base(os.Args[0])
 	app.Author = "指旺金科"
 	app.Email = "shouhe.wu@fintecher.cn"
@@ -28,6 +77,10 @@ func NewApp(usage string) *cli.App {
 	app.Usage = usage
 	app.Commands = []cli.Command{
 		glogCommand,
+	}
+	app.Before = func(ctx *cli.Context) error {
+		runtime.GOMAXPROCS(runtime.NumCPU())
+		return nil
 	}
 	app.After = func(ctx *cli.Context) error {
 		glog.Flush()
