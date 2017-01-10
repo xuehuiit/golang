@@ -8,5 +8,5 @@ import (
 func main() {
 
 	fmt.Println("ddddddddd")
-	fmt.Println(goutils.GetCurrentPath())
+	//fmt.Println(goutils.GetCurrentPath())
 }

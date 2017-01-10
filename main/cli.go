@@ -16,6 +16,7 @@ import (
 	"github.com/17golang/golang/cmd/utils"
 	"github.com/17golang/golang/goenv"
 	"github.com/17golang/golang/goutils/config"
+	gologging "github.com/golang/glog"
 	"gopkg.in/urfave/cli.v1"
 	"os"
 )
@@ -29,7 +30,7 @@ var (
 
 func main() {
 
-	//定义程序入口方法
+	//定义程序入口方法，根据具体的项目自行定义
 	app.Action = action
 
 	//设置程序作者，不设置采用默认的方式
@@ -40,7 +41,7 @@ func main() {
 
 	//入口方法直销完成之后的执行的方法
 	app.AddAfter(func(*cli.Context) error {
-		fmt.Println(" ===程序入口方法执行之后的方法===  ")
+		gologging.Info(" ===程序入口方法执行之后的方法===  ")
 		return nil
 	})
 
@@ -78,7 +79,7 @@ func action(ctx *cli.Context) error {
 	appDir := flag.String("appdir", "", "系统启动目录")
 	goenv.AppConstant["APP_DIR"] = *appDir
 
-	fmt.Println(" ********** 程序入口方法 ****************** ")
-	fmt.Println(goenv.AppConstant)
+	gologging.Info(" ********** 程序入口方法 ****************** ")
+	gologging.Info(goenv.AppConstant)
 	return nil
 }
