@@ -160,7 +160,7 @@ var (
 )
 
 func glogAction(ctx *cli.Context) error {
-	GlogGangstaShim(ctx)
+	GlogShim(ctx)
 	return nil
 }
 
@@ -172,7 +172,7 @@ func glogFlagShim(fakeVals map[string]string) {
 	})
 }
 
-func GlogGangstaShim(c *cli.Context) {
+func GlogShim(c *cli.Context) {
 	_ = flag.CommandLine.Parse([]string{})
 	glogFlagShim(map[string]string{
 		"v":                fmt.Sprint(c.Int("v")),
