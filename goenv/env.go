@@ -7,6 +7,7 @@ import (
 	"io/ioutil"
 	"os"
 	"os/exec"
+	"runtime"
 	"strings"
 )
 
@@ -15,6 +16,16 @@ var AppConstant map[string]interface{} = make(map[string]interface{})
 
 //系统全局变量上下文
 //var AppConstant map[string]string = make(map[string]string)
+
+//判断当前系统是否为windows操作系统
+func IfWinOs() bool {
+	if runtime.GOOS == "windows" {
+
+		return true
+	} else {
+		return false
+	}
+}
 
 //系统启动时初始化简单版本
 func InitAppSample() {
